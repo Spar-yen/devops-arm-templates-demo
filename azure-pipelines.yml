@@ -1,0 +1,25 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- task: AzureResourceManagerTemplateDeployment@3
+  inputs:
+    deploymentScope: 'Resource Group'
+    azureResourceManagerConnection: 'spar-subscription-conn'
+    subscriptionId: '459181b5-f5ca-46b6-8e5e-e7fe26ac3635'
+    action: 'Create Or Update Resource Group'
+    resourceGroupName: 'Spar-RG'
+    location: 'Central US'
+    templateLocation: 'URL of the file'
+    csmFileLink: 'https://raw.githubusercontent.com/Spar-yen/devops-arm-templates-demo/main/create_web_app/azuredeploy.json'
+    overrideParameters: '-projectName CI of ARM templates with Azure Pipelines'
+    deploymentMode: 'Incremental'
+    deploymentName: 'DeployPipelineTemplate'
